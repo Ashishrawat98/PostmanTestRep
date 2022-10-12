@@ -1,0 +1,160 @@
+{
+	"info": {
+		"_postman_id": "7acca586-aedb-47b3-ad83-a4b0ed1cd083",
+		"name": "Covid 19 Tracker",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7921426"
+	},
+	"item": [
+		{
+			"name": "authorization",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// pm.test(\"Verify token\", function () {\r",
+							"//     var jsonData = pm.response.json();\r",
+							"//     console.log(\"Value of token is: \" + jsonData.token)\r",
+							"// });\r",
+							"var jsonData = pm.response.json();\r",
+							" console.log(\"Value of token is: \" + jsonData.token)"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\" : \"admin\",\n    \"password\" : \"password123\"\n}"
+				},
+				"url": {
+					"raw": "https://restful-booker.herokuapp.com/auth",
+					"protocol": "https",
+					"host": [
+						"restful-booker",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "General stats",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://coronavirus-19-api.herokuapp.com/all",
+					"protocol": "https",
+					"host": [
+						"coronavirus-19-api",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"all"
+					],
+					"query": [
+						{
+							"key": "search",
+							"value": "india",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Country stats",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify active cases in India\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[2].active).to.eql(26292);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"console.log(\"Active cases in India are: \" + jsonData[2].active)\r",
+							"    console.info(\"Total recovered cases in India are: \" + jsonData[2].recovered)\r",
+							"    console.warn(\"Critical cases in India are: \" + jsonData[2].critical)\r",
+							"    console.error(\"Total Death cases in India are: \" + jsonData[2].deaths)\r",
+							"\r",
+							"postman.setNextRequest(\"authorization\");\r",
+							"postman.setNextRequest(null);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://coronavirus-19-api.herokuapp.com/countries",
+					"protocol": "https",
+					"host": [
+						"coronavirus-19-api",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"countries"
+					],
+					"query": [
+						{
+							"key": "search",
+							"value": "India",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
